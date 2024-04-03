@@ -1,4 +1,7 @@
 import { storageService } from './async-storage.service.js'
+import { httpService } from './http-service'
+import { utilService } from '../services/util.service';
+
 
 const STORAGE_KEY = 'seedling'
 
@@ -7,67 +10,49 @@ export const seedlingService = {
     getById,
     save,
     remove,
-    sumThenMultiplySavedSeedlings,
+    calculateSeedlingsCapacity,
+    restartSeedlingsDataBase
 
 }
 
-
-window.cs = seedlingService
 
 // initial db state = []
 async function query() {
 
-    return storageService.query(STORAGE_KEY)
-        .then((seedlings) => {
+    return httpService.get('seedling')
 
-            if (!seedlings || !seedlings.length) {
-                storageService.postMany(STORAGE_KEY, [])
-                seedlings = []
-            }
-
-            return seedlings
-
-        })
 }
 
 
 async function getById(seedlingId) {
-    // console.log(seedlingId);
-    return storageService.get(STORAGE_KEY, seedlingId)
+
+    return httpService.get(`seedling/${seedlingId}`)
 
 }
 
 
 async function save(seedling) {
-    // console.log(seedling);
-    var savedSeedling
 
-    if (seedling._id) {
+    seedling._id = utilService.makeId()
+    return httpService.post('seedling', seedling)
 
-        savedSeedling = await storageService.put(STORAGE_KEY, seedling)
-
-    } else {
-
-        savedSeedling = await storageService.post(STORAGE_KEY, seedling)
-    }
-
-    return savedSeedling
 }
 
 
 async function remove(seedlingId) {
 
-    await storageService.remove(STORAGE_KEY, seedlingId)
+    return httpService.delete(`seedling/${seedlingId}`)
+
 }
 
 
-// xxxx requer dev multiply the sum or put ()
-async function sumThenMultiplySavedSeedlings() {
+async function calculateSeedlingsCapacity() {
+
     var capacitySumResult = 0
     var amountSumResult = 0
     var seedlingsCapacity = 0
     var seedlings = await query()
-    // console.log(seedlings);
+
     if (seedlings.length > 0) {
         seedlings.map(seedling => {
 
@@ -81,13 +66,25 @@ async function sumThenMultiplySavedSeedlings() {
             }
 
             return seedlingsCapacity = amountSumResult * capacitySumResult
-
         })
-        console.log(seedlingsCapacity);
 
     }
 
-    // CreateOutputForHTML
+    return seedlingsCapacity
+
 }
 
 
+async function restartSeedlingsDataBase() {
+    const seedlings = await query()
+
+    seedlings.map(seedling => {
+
+        if (seedling.capacity > 0) {
+
+            return httpService.delete(`seedling/${seedling._id}`)
+
+        }
+    })
+
+}

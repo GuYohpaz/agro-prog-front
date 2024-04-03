@@ -1,7 +1,6 @@
 
 //SETUP
 @import '../../src/assets/setup/variables';
-@import '../../src/assets/setup/mixins.scss';
 @import '../../src/assets/setup/fonts.scss';
 
 
@@ -15,6 +14,8 @@
 @import'../../src/assets/cmp/_seedling-m.scss';
 @import'../../src/assets/cmp/_bags-m.scss';
 @import'../../src/assets/cmp/_main-header.scss';
+@import'../../src/assets/cmp/_main-footer.scss';
+
 
 //PAGES
 @import'../assets/pages/home.scss';

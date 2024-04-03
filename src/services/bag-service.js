@@ -1,6 +1,7 @@
 import { storageService } from './async-storage.service.js'
 import { seedlingService } from './seedling-service.js'
 import { shapesService } from './shape-service.js'
+import { httpService } from './http-service'
 
 
 
@@ -8,102 +9,98 @@ const STORAGE_KEY = 'bag'
 
 export const bagService = {
     query,
-    getCapacities,
-    getBagsAmount
-   
+    calculateCompressionResultIncludeSeedlingsCapacity,
+    calculateCompressionResultWithShapesCapacity,
+    getBagsAmount,
+    restartBagsStates
+
 }
 
-window.cs = bagService
-
-
-var bagsToConvert = [
-
-     { _id: 'b001',name:'L25', imgUrl: '', amount: 0, capacity: 25 },
-     { _id: 'b002',name:'L50', imgUrl: '', amount: 0, capacity: 50 },
-     { _id: 'b003',name:'L75', imgUrl: '', amount: 0, capacity: 75 },
-     { _id: 'b004',name:'L250', imgUrl: '', amount: 0, capacity: 250 } 
-
-]
 
 
 
 async function query() {
-    
-    return storageService.query(STORAGE_KEY).then((bags) => {
-        if (!bags || !bags.length) {
-            // console.log(bags);
-            storageService.postMany(STORAGE_KEY, bagsToConvert)
-            bags = bagsToConvert
-        }
-        
-        return bags
 
-    })
+    return httpService.get('bag')
+
 }
 
-// GetCapacitiesThenSubtractIfNeeded // args from Home page
-async function getCapacities(boolean) {
-    // console.log(boolean);
-    var totalCapacity=0
-    const shapes = await shapesService.query()
-    // const seedlingsCapacity = await seedlingService.sumThenMultiplySavedSeedlings()
-    
-    // OnlyShapeCapacity
-    if (boolean===false) {
-  
-      const shapeTo= await shapes?.find(shape =>
 
-        shape.shapeEquation.capacity > 0 ?
-        totalCapacity = shape.shapeEquation.capacity:
-        null)
+// ConvertOnlyShapeTotalCapacity
+async function calculateCompressionResultWithShapesCapacity(percentage) {
 
-    getBagsAmount(totalCapacity)
+    var shapesTotalCapacityAfterCompression
+    const shapesTotalCapacity = await shapesService.sumShapeCart()
 
-    //get seedlings capacity from seedlings service  then  subtract with shape capacity.
-    // (await for user action to add seedlings and to calculate ther capacity )
+    if (percentage === 0) {
+
+        getBagsAmount(shapesTotalCapacity)
+
     } else {
-        
-        
+
+        shapesTotalCapacityAfterCompression = shapesTotalCapacity - ((percentage / 100) * shapesTotalCapacity)
+        getBagsAmount(shapesTotalCapacityAfterCompression)
+
     }
 
-
 }
+
+
+// ConvertBothShapeTotalAndTotalSeedling
+async function calculateCompressionResultIncludeSeedlingsCapacity(percentage) {
+
+    var totalCapacity = 0
+    var totalCapacityAfterCompression
+
+    const shapesTotalCapacity = await shapesService.sumShapeCart()
+    const seedlingsTotalCapacity = await seedlingService.calculateSeedlingsCapacity()
+    if (seedlingsTotalCapacity > 0) {
+
+        totalCapacity = shapesTotalCapacity - seedlingsTotalCapacity
+
+        if (percentage === 0) {
+            console.log(totalCapacity);
+            getBagsAmount(totalCapacity)
+
+        } else {
+            totalCapacityAfterCompression = totalCapacity - ((percentage / 100) * totalCapacity)
+            getBagsAmount(totalCapacityAfterCompression)
+
+        }
+    }
+}
+
 
 async function getBagsAmount(totalCapacity) {
 
-const bags = await query()
-   
-bags.map(bag => {
+    const bags = await query()
 
-    if (bag.capacity <= totalCapacity) {
-        bag.amount = totalCapacity / bag.capacity
-        // console.log(bag.amount);
-   
-    } else {
-        bag.amount=== null// null ?
-        console.log('Capacity To Small');
-    }
+    bags.map(bag => {
 
-    storageService._save(STORAGE_KEY, bags)
-    return bag.amount
-    // didnt worked before beacuse i compared bag.amount to var, why? 
-})
+        if (bag.capacity <= totalCapacity) {
+            bag.amount = totalCapacity / bag.capacity
+            return httpService.put(`bag/${bag._id}`, bag)
 
+        } else {
 
+            bag.amount === 0
+        }
+    })
 
+    // output ---> BagsM
+    return totalCapacity
 }
 
 
-  
-        // function getEmptyBag() {
-        //     return
-        //     {
-        //         L25B: 0,
-        //          L50B: 0,
-        //           L75B: 0,
-        //           L250B: 0,
-        
-        
-        //     }
-        // }
-// }
+async function restartBagsStates() {
+    const bags = await query()
+    const initialAmount = 0
+
+    bags.map(bag => {
+        if (bag.amount > 0) {
+            bag.amount = initialAmount
+            console.log(bag);
+            return httpService.put(`bag/${bag._id}`, bag)
+        }
+    })
+}

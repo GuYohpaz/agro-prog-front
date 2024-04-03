@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.10d692da.css",
+    "main.js": "/static/js/main.694f9db9.js",
+    "static/media/agro-cover.png": "/static/media/agro-cover.e35fcd9de9916afdac63.png",
+    "static/media/FbTubic-SansEng-Light.otf": "/static/media/FbTubic-SansEng-Light.c79cc7f94aa5a5e94a3d.otf",
+    "static/media/FbTubic-SansEng-Regular.otf": "/static/media/FbTubic-SansEng-Regular.514eb8ff79677c283db4.otf",
+    "static/media/FbTubic-SansEng-Bold.otf": "/static/media/FbTubic-SansEng-Bold.65a335ae7d29de69a459.otf",
+    "static/media/FbBasisEng-ItalicExtraLightCondensed.otf": "/static/media/FbBasisEng-ItalicExtraLightCondensed.43693fccce186133828e.otf",
+    "static/media/FbBasisEng-ItalicLightCondensed.otf": "/static/media/FbBasisEng-ItalicLightCondensed.99aa433db57273c106c5.otf",
+    "static/media/switch-handle.mp3": "/static/media/switch-handle.ad41f22e1ca40ef44f45.mp3",
+    "static/media/remove.svg": "/static/media/remove.b20fcd78800fe4b83ef9e8dcad6edd74.svg",
+    "index.html": "/index.html",
+    "main.10d692da.css.map": "/static/css/main.10d692da.css.map",
+    "main.694f9db9.js.map": "/static/js/main.694f9db9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.10d692da.css",
+    "static/js/main.694f9db9.js"
+  ]
+}

@@ -1,125 +1,251 @@
 .shapes-container {
 
-    div {
+    // Shapes search filter nest
+    article {
 
-        // Shapes search filter nest
-        article {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            padding-left: 10px;
-            // padding-right: 10px;
-            height: 45px;
+        box-shadow: 0 0.1px 6px 0 rgba(0, 0, 0, 0.1), 0 1.5px 2px 0 rgba(0, 0, 0, 0.1);
+        padding-left: 15px;
+        padding-right: 8px;
+        height: 45px;
 
-            input {
+        input {
 
-                border: none;
-                font-size: 1.3rem;
-                min-width: 88%;
-            }
-
-            // input:focus-visible{
-
-            //     // background-color: black;
-            //     // border-color: green;
-
-            //     border:none;
-            //     // border: 1px;
-            //     // background-color: black;
-            // }
-
-            input::placeholder {
-                font-family: Fb Tubic bold;
-                color: black;
-            }
-
-
-            img {
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
-
-
-            }
-        }
-
-        option {
-            width: 100%;
-            // padding-right: 100px;
-
-            padding: 20px 0px 20px 0px;
-            border: solid;
-            border-width: 0px 0px 2px 0px;
-            border-color: $greenLowHue;
+            font-family: Fb Tubic bold;
+            border: none;
+            font-size: 1.3rem;
+            padding: 0;
+            min-width: 70%;
 
         }
 
-        option:hover {
-            color: $greenTopHue;
-            // padding-left: 20px;
-            font-weight: 700;
+        input::placeholder {
+
+            font-family: Fb Tubic bold;
+            color: black;
+
+        }
+
+        div {
+
+            padding-left: 136px;
+            padding-bottom: 10px;
+            max-width: 40px;
+            position: absolute;
+            visibility: visible;
+
+            span {
+
+                opacity: 0;
+                overflow: hidden;
+                font-family: fb Tubic bold;
+                font-size: 30px;
+
+            }
+
+            :nth-child(1) {
+
+                animation: dots-loading-animation 2.5s steps(1) infinite;
+            }
+
+            :nth-child(2) {
+
+                animation: dots-loading-animation 2.5s steps(1) 0.2s infinite;
+            }
+
+            :nth-child(3) {
+
+                animation: dots-loading-animation 2.5s steps(1) 0.5s infinite;
+            }
+
+        }
+
+
+        img {
+
+            height: 30px;
             cursor: pointer;
+
         }
 
-        //
-        .shapesEq-box {
-            // background-color: black;
+    }
 
-            div {
+    nav {
 
+        position: absolute;
+        padding-top: 55px;
+        width: 340px;
+        z-index: 99;
 
+        .names-list-box {
+            
+            background-color: white;
 
+            .names-list-item {
 
-                form {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 0;
-                    margin: 0;
-                    height: 40px;
-                    // background-color: black;
+                align-items: center;
+                flex-wrap: wrap;
 
+                option {
 
+                    padding-left: 15px;
 
-                    div {
-                        // margin-right: 35px;
-                        // margin-bottom: 25px;
-                        width: 100%;
-                        display: flex;
-                        flex-direction: row;
-                        gap: 20px;
-                        // justify-content: space-between;
-                        //  background-color: black;
+                }
 
+                option:hover {
 
-                        input {
+                    color: $greenTopHue;
+                    font-weight: 700;
+                    cursor: pointer;
+                    padding-bottom: 3px;
 
-                            width: 60px;
-                            height: 40px;
-                            border-style: solid;
-                            border-width: 0px 0px 3px 0px;
-                        }
+                }
 
-                        // ^
+                img {
 
-                        button {
-                            //xxxx
-                            margin-left: 50px;
+                    height: 50px;
+                    padding-right: 15px;
+                }
 
-                            border: none;
-                        }
+                hr {
 
-
-                    }
-
-                    h3 {
-                        padding: 5px 5px;
-                        background-color: $greenLowHue ;
-                        visibility: hidden;
-
-                    }
+                    align-content: center;
+                    margin: 12px 0px;
+                    border: solid;
+                    width: 100%;
+                    border-width: 0px 0px 2px 0px;
+                    border-color: $greenLowHue;
 
                 }
             }
         }
+
     }
 
+
+    .shapes-inputs-box {
+
+        padding: 20px 15px;
+
+        div {
+
+            width: 100%;
+
+            div {
+
+                gap: 20px;
+
+                input {
+
+                    text-align: center;
+                    padding: 0;
+                    width: 55px;
+                    height: 40px;
+                    border-style: solid;
+                    border-width: 0px 0px 2px 0px;
+
+                }
+
+
+                input::placeholder {
+
+                    text-align: center;
+
+                }
+
+            }
+
+            button {
+
+                padding: 0;
+                width: 80px;
+                border: none;
+                background-color: $greenLowHue;
+
+            }
+        }
+
+    }
+
+    .cart-box {
+
+        display: flex;
+        flex-direction: column;
+
+        ul {
+
+            flex-wrap: wrap;
+            padding: 20px 15px;
+            gap: 11px;
+
+            div {
+
+                background-color: $greenMiddleHue;
+                width: 100px;
+                height: 100px;
+                display: flex;
+                align-items: center;
+
+
+                h6 {
+
+                    padding: 0px 15px;
+                    line-height: 18px;
+                    text-align: center;
+
+                }
+
+            }
+
+
+            li {
+
+                padding-bottom: 10px;
+                min-width: 100px;
+                min-height: 90px;
+                box-shadow: 0 0.1px 2px 0 rgba(0, 0, 0, 0.1),
+                    0 1.5px 2px 0 rgba(0, 0, 0, 0.1);
+                border: solid;
+                border-color: $greenMiddleHue;
+                border-width: 1px;
+
+                svg {
+
+                    margin: 0;
+                    align-self: center;
+
+                }
+
+                pre:not(:last-child) {
+
+                    font-size: 0.6rem;
+                    font-family: basis italic extra light con;
+                    margin-top: 0;
+
+                }
+
+                pre:last-child {
+
+                    font-size: 0.7rem;
+                    font-family: Fb Tubic regular;
+
+                }
+            }
+        }
+
+
+        button {
+
+            margin: 10px 15px 0px 15px;
+            height: 45px;
+            font-family: Fb Tubic bold;
+            font-size: 1.1rem;
+            border: solid;
+            border-width: 2px;
+            color: $greenTopHue;
+            background-color: white;
+
+        }
+
+    }
 
 }

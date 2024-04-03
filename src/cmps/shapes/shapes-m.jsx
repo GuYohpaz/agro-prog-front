@@ -1,178 +1,209 @@
 import React from 'react'
-
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ToRectangular } from '../shapes/shapes-rectangular'
-import { ToCube } from '../shapes/shapes-cube'
-import { ToCylinder } from '../shapes/shapes-cylinder'
+import { addShape, loadShapes, loadShape, removeShape, calculateShapesCart } from '../../store/shape-action'
 
-import { setFilterBy, updateShape, loadShapes, loadShape } from '../store/shape-action'
-
+import { ReactComponent as Remove } from '../../assets/imgs/remove.svg'
 import arrow from '../../assets/imgs/arrow.png'
 
 
+export const ShapesM = ({ onPlaySwitchHandleSound }) => {
 
-// Anecdotes:  data flow between ShapesM <--> Store <--> Service 
-export const ShapesM = () => {
-
-    // shapesState preject shapes name, why not bring only names state?
-    const { shapes, shape } = useSelector(state => state.shapeModule) // globalState (from shape-reducer file)
+    const { shapes, shape, shapesCart, totalShapesCapacityResult } = useSelector(state => state.shapeModule) // globalState (from shape-reducer file)
     const dispatch = useDispatch()
 
-    const [valueToUpdate, setValue] = useState({ depth: '', length: '', width: '', radius: '' })
+    const [eqVars, setVars] = useState({ depth: '', len: '', width: '', radius: '' })
     const [switchHandle, setSwitchHandle] = useState(false)
-    const [filterBy, setFilter] = useState({ name: '' })
 
 
     useEffect(() => {
 
         dispatch(loadShapes())
-        if (shape?.length > 0) return
-        dispatch(loadShape())
 
-    }, [])
+    }, [shapesCart])
 
-    // use for render Eq, bring shape by Id after 'option' tag clicked ...
+
+    // Bring shape by Id after 'option' tag clicked 
     const onLoadShape = async (shapeId) => {
 
         dispatch(loadShape(shapeId))
 
-        if (shapeId) {
-            // close option tags
-            setSwitchHandle(false)
-        }
+        // Close option tags
+        setSwitchHandle(false)
 
+        const dotsLoadingDiv = document.querySelector('.dots-loading-box')
+        dotsLoadingDiv.style.visibility = 'hidden'
 
     }
+
 
     const handleChange = (ev) => {
         const { name, value, type } = ev.target
         type === 'number' ? +value : value
-        setValue({ ...valueToUpdate, [name]: value })
-
-    }
-
-    // search list filter
-    const handleFilterChange = (ev) => {
-        const { name, value, type } = ev.target
-        type === 'text' ? value : +value
-        setFilter({ ...filterBy, [name]: value })
-        // delay in chaining letters between files, why?
-        dispatch(setFilterBy(filterBy))
-        dispatch(loadShapes())
-
-        // open optin list when input (letter) added, else...
-        value.length > 0 ? setSwitchHandle(true) : setSwitchHandle(false)
+        setVars({ ...eqVars, [name]: value })
 
     }
 
 
+    const onCalculateShapesCart = async (ev) => {
 
-    const onUpdateValues = async (ev) => {
         ev.preventDefault()
-        if (!valueToUpdate.depth && !valueToUpdate.length && !valueToUpdate.width) return alert('All fields are required')
-        dispatch(updateShape(valueToUpdate, shape._id))
-        // console.log(shape._id);
-        setValue({ depth: '', length: '', width: '', radius: '' })
+        dispatch(calculateShapesCart())
 
-        //INLINE CSS --->
-        // hide inputs when values updating  
-        const elements = document.getElementsByClassName('eq-inputs')
-        const element = elements[0]
-        if (element) {
 
-            element.style.visibility = 'hidden'
+        const shpaesMiddleContainer = document.querySelector('.shapes-middle-container')
+        shpaesMiddleContainer.style.display = 'none'
+        shpaesMiddleContainer.style.transition = 'transform 0.4s ease, opacity 0.4s ease'
+        shpaesMiddleContainer.style.opacity = 0
 
-        } else {
-            element.style.visibility = 'visible'
+      
+        // reveal seedlings nav ---> influance over  seedlings-m cmp
+        setTimeout(() => {
+            
+            const seedlingsNavTag = document.querySelector('.seedlings-nav')
+            seedlingsNavTag.style.transition = 'transform 0.4s ease, opacity 0.4s ease'
+            seedlingsNavTag.style.opacity = 100
 
-        }
-
-        // reveal shape result tag after updating values // todo : text reveal transition
-        const h3Tag = document.querySelector('.shape-result')
-
-        if (h3Tag) {
-            h3Tag.style.visibility = 'visible'
-        }
-
-        // reveal seedlings nav  // todo:  delay transtiion
-        const seedlingsNavTag = document.querySelector('.seedlings-nav')
-        if (seedlingsNavTag) {
-            seedlingsNavTag.style.visibility = 'visible'
-        }
-        
+        }, 500)
 
     }
 
 
-    // console.log(switchHandle);
-    // console.log('shapesThenFilteredOne:', shapes);
-    // console.log('clickedOptin:', shape);
-    //  console.log(filterBy);
-    // console.log(filteredShapeId);  
-    // console.log(valueToUpdate);
+    const onRemoveShape = (shapeId) => {
+
+        dispatch(removeShape(shapeId))
+    }
+
+
+    const onAddNewShape = async (ev) => {
+
+        ev.preventDefault()
+        if (!eqVars.depth && !eqVars.len && !eqVars.width) return alert('All fields are required')
+        dispatch(addShape(eqVars, shape))
+        setVars({ depth: '', len: '', width: '', radius: '' })
+
+    }
 
 
     // Anecdotes:
 
-    // two controllers for options list ->
-    // 1. 'input' manipulate over the options list by filter action.
+    // two triggers for options list ->
+    // 1. Todo ---> 'input' manipulate over the options list by filter action. 
     // 2.  'img'  onclick reveal options list. 
     // ---------------------------------------- 
-    //---> 'option' onclick take id then return the compatible shape.
-    //--->  onUpdateValues() --> eventually the args were saved in  DB then went through shapeState.
-
 
     if (shapes) return (
 
-        <section className='shapes-container flex '>
+        <section className='shapes-container flex column'>
 
-            <div>
+            {/* searchNav */}
+            <article className='flex row align-center space-between'>
+                <input type='text' name='name' placeholder={shape === undefined || shape?.length === 0 ? 'Search Shape' : shape.name} />
 
-                {/* searchNav */}
-                <article className='flex row align-center space-between'>
-                    <input type='text' name='name' value={filterBy.name} onChange={handleFilterChange} placeholder={shape?.length !== 0 ? shape?.name : 'Search Shape...'} />
-                    {/* // options list link (imgTag) */}
-                    <img style={{ rotate: switchHandle === false ? '-90deg' : '0deg' }} onClick={() => setSwitchHandle(prevSwitchHandle => !prevSwitchHandle)} src={arrow} alt="" />
-                </article>
+                <div className='dots-loading-box'>
 
-                {switchHandle === true && shapes.map(shape =>
-                    <option key={shape._id} onClick={() => onLoadShape(shape._id)} >{shape.name}</option>
-                )}
-                {/* /// */}
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
 
-                {/* render only if option clicked, prevent from Eq inputs to render when filterBy inputs executed */}
-                {shape?._id && <section className='shapesEq-box'>
+                </div>
 
-                    {/* shapes Eq */}
-                    {shape?.name === 'Rectangular' && <div>
+                {/* // options list link (imgTag) */}
+                <img style={{ zIndex: 100, padding: switchHandle === false ? '0px' : '6px 0px 0px 0px', rotate: switchHandle === false ? '-90deg' : '0deg' }} onClick={() => { setSwitchHandle(prevSwitchHandle => !prevSwitchHandle), onPlaySwitchHandleSound() }} src={arrow} alt="" />
 
-                        < ToRectangular key={shape?._id} rectangularEq={shape?.shapeEquation} onUpdateValues={onUpdateValues} handleChange={handleChange} valueToUpdate={valueToUpdate} />
+            </article>
+
+
+            {switchHandle === true &&
+                <nav>
+
+                    <div className='names-list-box'> {shapes.map(shape => shape.capacity === 0 &&
+                        <div key={shape._id} className='names-list-item flex row space-between'>
+
+                            <option onClick={() => onLoadShape(shape._id)} >{shape.name}</option>
+                            <img src={shape.imgUrl} alt="Image" />
+                            <hr style={{}} />
+                        </div>)}
+                    </div>
+                </nav>
+            }
+
+             <section style={{opacity: 100, display:'block'}} className='shapes-middle-container' >
+
+                <form className='shapes-inputs-box flex column' onSubmit={onAddNewShape}>
+
+
+                    {/* shapes Eq inputs */}
+                    {shape?.name === 'Cylinder' && <div className='flex row space-between '>
+
+                        <div className='flex row'>
+                            <input type='number' name='radius' id='radius' placeholder='Radius' value={eqVars.radius} onChange={handleChange} />
+                            <input type='number' name='depth' id='depth' placeholder='Depth' value={eqVars.depth} onChange={handleChange} />
+
+                        </div>
+
+                        <button className='btn-calculate-shape' onClick={() => { onAddNewShape }}>Add</button>
+
                     </div>}
 
+                    {shape?.name === 'Cube' && <div className='flex row space-between '>
 
-                    {shape?.name === 'Cube' && <div>
+                        <div className='flex row'>
+                            <input type='number' name='len' id='len' placeholder='Length' value={eqVars.len} onChange={handleChange} />
+                        </div>
 
-                        < ToCube key={shape?._id} cubeEq={shape?.shapeEquation} onUpdateValues={onUpdateValues} handleChange={handleChange} valueToUpdate={valueToUpdate} />
+                        <button className='btn-calculate-shape' onClick={() => { onAddNewShape }}>Add</button>
+
                     </div>}
 
+                    {shape?.name === 'Rectangular' && <div className='flex row space-between '>
 
-                    {shape?.name === 'Cylinder' && <div>
+                        <div className='flex row'>
+                            <input type='number' name='depth' id='depth' placeholder='Depth' value={eqVars.depth} onChange={handleChange} />
+                            <input type='number' name='len' id='len' placeholder='Length' value={eqVars.len} onChange={handleChange} />
+                            <input type="number" name='width' id='width' placeholder='Width' value={eqVars.width} onChange={handleChange} />
 
-                        < ToCylinder key={shape?._id} cylinderEq={shape?.shapeEquation} onUpdateValues={onUpdateValues} handleChange={handleChange} valueToUpdate={valueToUpdate} />
+                        </div>
+
+                        <button className='btn-calculate-shape' onClick={() => { onAddNewShape }}>Add</button>
+
                     </div>}
 
-                </section>}
+                </form>
 
 
-            </div>
+                {shapesCart.length > 0 && <div className='cart-box'>
 
+                    <hr style={{ borderColor: '#513C3C', borderWidth: '0.01px', margin: '10px 15px', opacity: '10%' }} />
+                    <ul className='flex row align-center'>
+
+                        <div><h6>Shapes Cart:</h6></div>
+
+                        {shapes.map(shape => shape.capacity > 0 &&
+                            <li className='flex column space-between'
+                                key={shape._id}>
+                                <Remove onClick={() => { onRemoveShape(shape._id) }} style={{ height: 35, width: 35 }} />
+                                <pre>{shape.name}</pre>
+                                <pre>{shape.capacity} Liter</pre>
+
+                            </li>
+
+                        )}
+
+                    </ul>
+
+                    <button onClick={onCalculateShapesCart}>Calculate Total Capacity</button>
+
+                </div>}
+
+            </section>
+
+            {totalShapesCapacityResult !== null && <h3>Total shapes capacity: {totalShapesCapacityResult.toLocaleString()} Liter</h3>}
 
         </section>
 
     )
-
 
 }
 

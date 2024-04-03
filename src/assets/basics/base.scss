@@ -1,48 +1,45 @@
-// * {
-//     margin: 0;
-// }
-
-
 body {
+
     margin: 0;
     padding: 0;
-    // font-family: ;
+
 }
 
 
-ul,pre {
+ul,
+pre {
+
     padding: 0;
     margin: 0;
 }
+
 
 input {
+
     font-family: Fb Tubic regular;
-    // 0 opacity
     background-color: rgba(255, 255, 255, 0);
- 
-    // width: 40px;
-    // height: 40px;
-    // border-style: solid;
-    // border-width: 0px 0px 3px 0px;
-    // align-self: flex-end;
 
 }
 
-// ^, x
+
 p {
 
     margin-top: 0;
 
 }
 
-
 //FontsSetUp
-
-// *, /, +, - ... 
 pre {
 
     font-family: Fb Tubic bold;
     align-self: center;
+
+}
+
+
+button {
+    font-family: Fb Tubic light;
+    cursor: pointer;
 
 }
 
@@ -53,65 +50,187 @@ option {
 
 }
 
-// Pi
+
 span {
-    // align-self: center;
 
-    // align-self: flex-end;
-    // font-family: Fb Tubic regular;
     font-family: basis italic light con;
-
     font-size: 0.7rem;
 
 }
 
 
-
 h1 {
 
-    font-size: 2.7rem;
+    font-size: 2rem;
     font-family: Fb Tubic bold;
 }
 
 
 h2 {
 
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-family: Fb Tubic bold;
-    // text-align: left;
+
 }
 
 
 h3 {
 
-    font-size: 1.1rem;
-    font-family: basis italic light con;
+    margin-bottom: 0px;
+    margin-top: 7px;
+    font-size: 0.8rem;
+    font-family: basis italic extra light con;
+    padding: 8px 15px;
+    background-color: $greenLowHue ;
 }
+
 
 h4 {
 
- 
     font-size: 0.8rem;
-    // align-self: flex-end;
     margin-bottom: 0;
     font-family: basis italic light con;
 }
 
+
 h5 {
-    font-size: 0.7rem;
+
+    font-size: 0.650rem;
     font-family: basis italic extra light con;
 }
 
 
 h6 {
-    font-size: 0.6rem;
-    font-family: basis italic light con;
+
+    font-size: 0.8rem;
+    font-family: Fb Tubic regular;
+    margin: 0;
 }
+
 
 label {
 
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-family: Fb Tubic light;
 }
 
 
+// remove default step arrows
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+
+    -webkit-appearance: none;
+
+}
+
+
+input[type="range"] {
+
+    height: 25px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: $greenTopHue;
+    border-radius: 3px;
+    border: 0px solid #000000;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    border: 1.5px solid $greenTopHue;
+    height: 18px;
+    width: 18px;
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+
+
+// Remove the default focus border 
+input:focus {
+
+    outline: none;
+}
+
+
+::placeholder {}
+
+
+// Animations
+@keyframes typing-effect {
+
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+
+@keyframes typing-effect-reverse {
+
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0;
+    }
+
+}
+
+
+@keyframes blink-caret {
+
+    from {
+        border-right: 2px rgb(196, 216, 182, 0.9);
+    }
+
+    to {
+        border-right: 2px rgb(196, 216, 182, 0.8);
+    }
+
+}
+
+
+@keyframes dots-loading-animation {
+
+    0%,
+    100% {
+
+        opacity: 0%;
+    }
+
+    50% {
+        
+        opacity: 100%;
+    }
+
+}
+
+
+@keyframes padding-from-bottom {
+
+    0% {
+
+        padding-bottom: 0;
+    }
+
+    100% {
+        
+        padding-bottom: 5px;
+    }
+
+}

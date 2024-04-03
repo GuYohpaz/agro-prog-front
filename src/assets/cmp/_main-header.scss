@@ -1,20 +1,38 @@
 .main-header {
+
     width: 100%;
-    margin-top: -60px;
 
-    h1 {
-        text-shadow: $greenTopHue 1px 0 10px;
-        color:$greenMiddleHue;
-        text-align: center;
-        margin-top: -70px;
-        margin-bottom: 0;
-        
+    nav {
+
+        width: 100%;
+        padding: 15px 0px;
+        background-color: $greenTopHue;
+        background: linear-gradient(-90deg, rgba(212, 237, 211, 1) 0%, rgba(196, 216, 182, 1) 5.5%, rgba(142, 193, 112, 1) 100%);
+
+        h1 {
+
+            padding-left: 40px;
+            text-align: left;
+            color: $white;
+            text-shadow: 0px 0px 2.0px $darkGray ;
+            margin: 0;
+
+        }
+
     }
 
-    img {
-        position: relative;
-        z-index: -1;
-        filter: brightness(70%);
-        // margin-top: -50px;
+    div {
+
+        overflow: hidden;
+        height: 140px;
+
+        .img-cover {
+            width: 400px;
+            z-index: -1;
+            filter: brightness(50%);
+
+        }
+
     }
+
 }

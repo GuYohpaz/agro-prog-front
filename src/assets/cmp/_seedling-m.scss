@@ -1,82 +1,154 @@
-.seedlings-container {
-button {
-    border: none;
-    padding: 6px 1px;
+section {
 
-}
-    span {
-        padding-left: 10px;
-        align-self: flex-end;
-    }
+    .seedlings-container {
 
+        padding: 0px 15px;
 
-    div:first-child {
-        // background-color: bisque;
-        // margin-bottom:0 ;
-        align-items: flex-end;
+        .choose-seedling-capacity-box {
 
-        h4 {
-            padding-right: 15px;
-        }
+            padding: 20px 0px;
 
-    }
+            h4 {
 
+                margin: 0;
 
-    section {
-        margin-bottom: 25px;
-        align-items: flex-end;
+            }
 
-        button {
-            width: 100%;
-            margin-left: 100px;
-            // border: none;
-            // padding: 6px 1px;
+            input {
+
+                align-items: flex-end;
+
+            }
 
         }
-    }
 
-    input:not(:nth-child(3)) {
-        width: 40px;
-        height: 40px;
-        border-style: solid;
-        border-color: $greenMiddleHue;
-        border-width: 0px 0px 2px 0px;
-        padding: 0;
-    }
 
-    ul {
-        overflow: hidden;
-        margin: 0;
-        margin-bottom: 40px;
-        padding: 0;
-        gap: 20px;
 
-        li {
+        input:first-child {
 
-            padding: 10px 10px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            border: solid;
+            text-align: center;
+            width: 60px;
+            height: 25px;
+            border-style: solid;
             border-color: $greenMiddleHue;
-            border-width: 1px;
-            // border-color: ;
+            border-width: 0px 0px 2px 0px;
+            padding: 0;
 
-            pre:not(:last-child) {
-                font-size: 0.6rem;
-                font-family: basis italic extra light con;
-                margin-top: 0;
-
-            }
-
-            pre:last-child {
-                font-size: 0.7rem;
-                font-family: Fb Tubic regular;
-                margin-top:25px ;
-
-            }
         }
 
+        input:last-child {
+            text-align: center;
+            width: 140px;
+            height: 20px;
+            border-style: solid;
+            border-color: $greenMiddleHue;
+            border-width: 0px 0px 2px 0px;
+            padding: 0;
+
+        }
+
+        .choose-seedling-amount-box {
+
+            padding: 20px 0px;
+            gap: 10px;
+
+            h5 {
+
+                margin: 0;
+                padding: 0;
+            }
+
+            section {
+
+                button {
+
+                    width: 45%;
+                    background-color: $greenLowHue;
+                    border: none;
+                    padding: 6px 1px;
+                }
+
+            }
+
+        }
+
+        .seedlings-cart {
+
+            display: flex;
+            flex-direction: column;
+
+            ul {
+
+                flex-wrap: wrap;
+                padding: 20px 0px;
+                gap: 11px;
 
 
+                div {
+
+                    background-color: $greenMiddleHue;
+                    width: 100px;
+                    height: 100px;
+                    display: flex;
+                    justify-content: center;
+
+                    h6 {
+
+                        align-self: center;
+                        padding: 0px 15px;
+                        line-height: 18px;
+                        text-align: center;
+                    }
+                }
+
+                li {
+
+                    padding-bottom: 10px;
+                    min-width: 100px;
+                    min-height: 90px;
+                    box-shadow: 0 0.1px 2px 0 rgba(0, 0, 0, 0.1),
+                        0 1.5px 2px 0 rgba(0, 0, 0, 0.1);
+                    border: solid;
+                    border-color: $greenMiddleHue;
+                    border-width: 1px;
+
+                    svg {
+
+                        margin: 0;
+                        align-self: center;
+
+                    }
+
+                    pre:not(:last-child) {
+                        font-size: 0.6rem;
+                        font-family: basis italic extra light con;
+                        margin-top: 0;
+
+                    }
+
+
+                    pre:last-child {
+                        font-size: 0.7rem;
+                        font-family: Fb Tubic regular;
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    .cal-seedling-cart {
+
+        height: 45px;
+        font-family: Fb Tubic bold;
+        font-size: 1.1rem;
+        border: solid;
+        border-width: 2px;
+        color: $greenTopHue;
+        background-color: white;
+        
     }
 
 }
